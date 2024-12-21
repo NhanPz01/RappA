@@ -3,7 +3,7 @@ package com.example.rappa.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "word")
+@Table(name = "word1")
 public class Word {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
