@@ -3,8 +3,8 @@ package com.example.rappa.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "word1")
-public class Word {
+@Table(name = "word2")
+public class WordTwoSyllable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -16,10 +16,10 @@ public class Word {
     @Column(name = "no_accent")
     private String noAccent;
 
-    public Word() {
+    public WordTwoSyllable() {
     }
 
-    public Word(Integer id, String word, String noAccent) {
+    public WordTwoSyllable(Integer id, String word, String noAccent) {
         this.id = id;
         this.word = word;
         this.noAccent = noAccent;
