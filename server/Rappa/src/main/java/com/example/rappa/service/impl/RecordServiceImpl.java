@@ -24,6 +24,11 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
+    public List<?> findByUsername(String username) {
+        return recordRepository.findByUsername(username);
+    }
+
+    @Override
     public Record save(Record record) {
         return recordRepository.save(record);
     }

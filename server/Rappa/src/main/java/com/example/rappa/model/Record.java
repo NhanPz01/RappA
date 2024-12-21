@@ -1,8 +1,11 @@
 package com.example.rappa.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "record")
 public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +17,20 @@ public class Record {
     @ManyToOne
     @JoinColumn(name = "username", nullable = false)
     private User user;
+
+    public Record(String content, User user) {
+        this.content = content;
+        this.user = user;
+    }
+
+    public Record() {
+    }
+
+    public Record(Integer id, String content, User user) {
+        this.id = id;
+        this.content = content;
+        this.user = user;
+    }
 
     // Getters and Setters
     public Integer getId() {
