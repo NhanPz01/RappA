@@ -85,7 +85,9 @@ const Record: React.FC = () => {
       setIsLastWordActive(true); // Activate last word button
       setIsLastTwoWordsActive(false); // Deactivate last two words button
     } else if (count === 2 && !isLastTwoWordsActive) {
-      setWordCloudTags([lastWords]); // Set last two words tag
+      const rhymeWords = await WordService.getTwoSyllableWordsWithSameRhyme(lastWords); // Fetch words with the same rhyme
+      const newTags = rhymeWords.map((item: any) => item.word); // Extract 'word' from response
+      setWordCloudTags(newTags); // Set new tags to word cloud
       setIsLastTwoWordsActive(true); // Activate last two words button
       setIsLastWordActive(false); // Deactivate last word button
     }
