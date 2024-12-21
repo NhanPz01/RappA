@@ -13,9 +13,16 @@ create table word2 (
 	no_accent nvarchar(500) null
 );
 
+create table role (
+	id int auto_increment primary key,
+    name varchar(255) null
+);
+
 create table user (
 	username varchar(32) not null primary key,
-    password varchar(255) not null
+    password varchar(255) not null,
+    role_id int not null,
+    foreign key(role_id) references role(id)
 );
 
 create table record (
@@ -25,10 +32,9 @@ create table record (
     foreign key(username) references user(username)
 );
 
--- Insert statements for user
-INSERT INTO `rappa`.`user` (`username`, `password`) VALUES ('user1', '123456');
-INSERT INTO `rappa`.`user` (`username`, `password`) VALUES ('user2', '123456');
-INSERT INTO `rappa`.`user` (`username`, `password`) VALUES ('admin', '111111');
+-- Insert statements for word1
+INSERT INTO role (name) VALUES ('ROLE_ADMIN');
+INSERT INTO role (name) VALUES ('ROLE_USER');
 
 -- Insert statements for word1
 INSERT INTO word1 (word, no_accent) VALUES ('gột', 'gôt');
