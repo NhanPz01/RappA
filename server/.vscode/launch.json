@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-RappaApplication<Rappa>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.rappa.RappaApplication",
+            "projectName": "Rappa",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
