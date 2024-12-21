@@ -1,6 +1,8 @@
 import { Button, Card, Input, Layout, Space, Tag, Typography, message } from 'antd';
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import WordService from '../services/WordService'; // Import the WordService
+
 
 const { Header, Content, Footer } = Layout;
 const { TextArea } = Input;
@@ -70,7 +72,8 @@ const MainPage: React.FC = () => {
   const [isLastWordActive, setIsLastWordActive] = useState(false); // State for last word button
   const [isLastTwoWordsActive, setIsLastTwoWordsActive] = useState(false); // State for last two words button
   const [wordCloudTags, setWordCloudTags] = useState<string[]>([]); // State to store tags in the word cloud
-  const handleCreateTag = (count: number) => {
+
+  const handleCreateTag = async (count: number) => {
     const words = text.trim().split(' '); // Split the text into words
     const lastWords = words.slice(-count).join(' '); // Get the last 'count' words
     if (lastWords.trim() === '') {
@@ -79,11 +82,13 @@ const MainPage: React.FC = () => {
     }
     // Only add the tag if the button is active
     if (count === 1 && !isLastWordActive) {
-      setWordCloudTags((prevTags) => [...prevTags, lastWords]); // Add last word tag
+      const rhymeWords = await WordService.getWordsWithSameRhyme(lastWords); // Fetch words with the same rhyme
+      const newTags = rhymeWords.map((item: any) => item.word); // Extract 'word' from response
+      setWordCloudTags(newTags); // Set new tags to word cloud
       setIsLastWordActive(true); // Activate last word button
       setIsLastTwoWordsActive(false); // Deactivate last two words button
     } else if (count === 2 && !isLastTwoWordsActive) {
-      setWordCloudTags((prevTags) => [...prevTags, lastWords]); // Add last two words tag
+      setWordCloudTags([lastWords]); // Set last two words tag
       setIsLastTwoWordsActive(true); // Activate last two words button
       setIsLastWordActive(false); // Deactivate last word button
     }
@@ -137,15 +142,15 @@ const MainPage: React.FC = () => {
                 maxHeight: "450px",
                 overflow: "auto" // Allow scrolling if content exceeds max height
               }}>
-                <WordCloud style={{overflow: "auto"}}>
+                <WordCloud style={{ overflow: "auto" }}>
                   {wordCloudTags.map((tag, index) => (
                     (isLastWordActive && tag.split(' ').length === 1) ||
                       (isLastTwoWordsActive && tag.split(' ').length === 2) ? (
-                        <Tag 
-                        key={index} 
-                        onClick={() => handleTagClick(tag)} 
-                        style={{ 
-                          cursor: 'pointer', 
+                      <Tag
+                        key={index}
+                        onClick={() => handleTagClick(tag)}
+                        style={{
+                          cursor: 'pointer',
                           fontSize: '16px', // Increase font size
                           margin: '4px', // Add some margin between tags
                           backgroundColor: selectedTag === tag ? '#47B5FF' : '#e6f7ff', // Change color when selected

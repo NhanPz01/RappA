@@ -11,11 +11,15 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
+    "@nestjs/common": "^10.4.15",
     "@types/styled-components": "^5.1.26",
     "antd": "^5.22.0",
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
     "rappa": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.1.0",
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
