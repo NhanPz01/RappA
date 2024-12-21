@@ -4,6 +4,7 @@ import com.example.rappa.model.Word;
 import com.example.rappa.service.WordService;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/word")
+@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
 public class WordController {
     @Autowired
     private WordService wordService;
