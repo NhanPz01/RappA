@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5174")
 public class AuthController {
     @Autowired
     private UserService userService;
@@ -34,7 +34,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(userService.findRoleByName("ROLE_USER"));
         userService.save(user);
-        return ResponseEntity.ok(UserInfoResponse.fromUser(user));
+        return ResponseEntity.ok(UserInfoResponse.fromUser(user));  
     }
 
     @PostMapping("/signin")

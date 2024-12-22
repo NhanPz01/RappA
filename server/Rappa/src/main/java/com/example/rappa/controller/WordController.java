@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/word")
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
+@CrossOrigin(origins = "http://localhost:5174") // Allow requests from this origin
 public class WordController {
     @Autowired
     private WordService wordService;
