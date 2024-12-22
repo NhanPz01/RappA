@@ -10,6 +10,7 @@ public class Record {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String title;
 
     @Lob
     private String content;
@@ -18,7 +19,8 @@ public class Record {
     @JoinColumn(name = "username", nullable = false)
     private User user;
 
-    public Record(String content, User user) {
+    public Record(String title, String content, User user) {
+        this.title = title;
         this.content = content;
         this.user = user;
     }
@@ -26,11 +28,6 @@ public class Record {
     public Record() {
     }
 
-    public Record(Integer id, String content, User user) {
-        this.id = id;
-        this.content = content;
-        this.user = user;
-    }
 
     // Getters and Setters
     public Integer getId() {
@@ -55,5 +52,13 @@ public class Record {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -2,6 +2,7 @@ package com.example.rappa.controller;
 
 import com.example.rappa.dto.request.AuthRequest;
 import com.example.rappa.dto.request.RecordRequest;
+import com.example.rappa.dto.response.RecordResponse;
 import com.example.rappa.dto.response.UserInfoResponse;
 import com.example.rappa.model.Record;
 import com.example.rappa.model.User;
@@ -32,8 +33,14 @@ public class UserController {
         if (Objects.isNull(user)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        List<?> records = recordService.findByUsername(user.getUsername());
-        return ResponseEntity.ok(records);
+        List<Record> records = recordService.findByUsername(user.getUsername());
+        if (records.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No records found");
+        }
+        List<RecordResponse> recordResponses = records.stream()
+                .map(record -> new RecordResponse(record.getTitle(), record.getContent(), record.getUser().getUsername()))
+                .toList();
+        return ResponseEntity.ok(recordResponses);
     }
 
     @GetMapping("/record/{id}")
@@ -46,8 +53,7 @@ public class UserController {
         if (Objects.isNull(record)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Record not found");
         }
-        return ResponseEntity.ok(record.getContent());
-
+        return ResponseEntity.ok(new RecordResponse(record.getTitle(), record.getContent(), record.getUser().getUsername()));
     }
 
     @PostMapping("/record")
@@ -56,20 +62,21 @@ public class UserController {
         if (Objects.isNull(user)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        Record record = new Record(recordRequest.getContent(), user);
+        String title = recordRequest.getTitle().isEmpty() ? "Record" : recordRequest.getTitle();
+        Record record = new Record(title, recordRequest.getContent(), user);
         recordService.save(record);
-        return ResponseEntity.ok(record.getContent());
+        return ResponseEntity.status(HttpStatus.CREATED).body("Record created successfully");
     }
 
     @PutMapping("/record/{id}")
     public ResponseEntity<?> updateRecord(@RequestBody RecordRequest recordRequest, @PathVariable Integer id) {
         Record updatedRecord = recordService.findById(id);
-        if (updatedRecord != null) {
-            BeanUtils.copyProperties(recordRequest, updatedRecord);
-            recordService.save(updatedRecord);
-            return ResponseEntity.ok(updatedRecord.getContent());
+        if (Objects.isNull(updatedRecord)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Record not found");
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Record not found");
+        BeanUtils.copyProperties(recordRequest, updatedRecord);
+        recordService.save(updatedRecord);
+        return ResponseEntity.ok("Record updated successfully");
     }
 
     @DeleteMapping("/record/{id}")
@@ -79,6 +86,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Record not found");
         }
         recordService.deleteById(id);
-        return ResponseEntity.ok("Record deleted");
+        return ResponseEntity.ok("Record deleted successfully");
     }
 }

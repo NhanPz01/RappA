@@ -1,14 +1,17 @@
-package com.example.rappa.dto.request;
+package com.example.rappa.dto.response;
 
-public class RecordRequest {
+public class RecordResponse {
+    private String id;
     private String title;
     private String content;
     private String username;
 
-    public RecordRequest() {
+    public RecordResponse() {
     }
 
-    public RecordRequest(String title, String content, String username) {
+    public RecordResponse(String title, String content, String username) {
+        // id is random number. Just when the object is created.
+        this.id = (1000 + (int) (Math.random() * 8999)) + "";
         this.title = title;
         this.content = content;
         this.username = username;
@@ -36,5 +39,13 @@ public class RecordRequest {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
