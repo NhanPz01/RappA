@@ -68,11 +68,10 @@ export const Input = styled.input`
 
 
 export const Button = styled.button`
+    border-width: 0px;
     border-radius: 20px;
-    border: none;
     background-color: #47B5FF;
     color: #ffffff;
-    border-color: #ffffff;
     font-size: 12px;
     font-weight: bold;   
     padding: 12px 45px;
@@ -81,6 +80,8 @@ export const Button = styled.button`
     transition: transform 80ms ease-in, border 80ms ease-in;
     &:active {
         transform: scale(0.95);
+        border-color: #ffffff;
+        border-width: 2.5px;
     }
     &:focus {
         outline: none;
