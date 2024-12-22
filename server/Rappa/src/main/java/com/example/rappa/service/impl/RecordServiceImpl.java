@@ -37,4 +37,9 @@ public class RecordServiceImpl implements RecordService {
     public void deleteById(Integer id) {
         recordRepository.deleteById(id);
     }
+
+    @Override
+    public void deleteByUsername(String username) {
+        recordRepository.deleteByUsername(username);
+    }
 }

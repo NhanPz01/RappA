@@ -3,15 +3,13 @@ package com.example.rappa.controller;
 import com.example.rappa.model.WordTwoSyllable;
 import com.example.rappa.service.WordTwoSyllableService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/word2")
+@CrossOrigin(origins = "http://localhost:5173")
 public class WordTwoSyllableController {
     @Autowired
     private WordTwoSyllableService word2Service;

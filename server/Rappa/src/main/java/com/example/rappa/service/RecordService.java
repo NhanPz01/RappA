@@ -9,4 +9,5 @@ public interface RecordService {
     List<?> findByUsername(String username);
     Record save(Record record);
     void deleteById(Integer id);
+    void deleteByUsername(String username);
 }
