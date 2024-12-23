@@ -51,7 +51,7 @@ public class AdminServiceImpl implements AdminService {
     public List<RecordResponse> getRecords() {
         List<Record> records = recordService.findAll();
         return records.stream()
-                .map(record -> new RecordResponse(record.getTitle(), record.getContent(), record.getUser().getUsername()))
+                .map(record -> new RecordResponse(record.getId(),record.getTitle(), record.getContent(), record.getUser().getUsername()))
                 .toList();
     }
 
@@ -61,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
         if (record == null) {
             return null;
         }
-        return new RecordResponse(record.getTitle(), record.getContent(), record.getUser().getUsername());
+        return new RecordResponse(record.getId(),record.getTitle(), record.getContent(), record.getUser().getUsername());
     }
 
     @Override

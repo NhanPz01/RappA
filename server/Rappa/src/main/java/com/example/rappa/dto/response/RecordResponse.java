@@ -9,9 +9,9 @@ public class RecordResponse {
     public RecordResponse() {
     }
 
-    public RecordResponse(String title, String content, String username) {
+    public RecordResponse(int id,String title, String content, String username) {
         // id is random number. Just when the object is created.
-        this.id = (1000 + (int) (Math.random() * 8999)) + "";
+        this.id = id+"";
         this.title = title;
         this.content = content;
         this.username = username;

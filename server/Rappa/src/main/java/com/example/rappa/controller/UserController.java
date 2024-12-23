@@ -1,5 +1,7 @@
 package com.example.rappa.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.example.rappa.dto.request.AuthRequest;
 import com.example.rappa.dto.request.RecordRequest;
 import com.example.rappa.dto.response.RecordResponse;
@@ -13,13 +15,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.rappa.model.Word;
+import com.example.rappa.service.WordService;
+import jakarta.validation.constraints.Pattern;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,7 +38,7 @@ public class UserController {
     @Autowired
     private RecordService recordService;
 
-    @GetMapping("/records")
+    @PostMapping("/records")
     public ResponseEntity<?> userRecords(@RequestBody UserInfoResponse userInfoResponse) {
         User user = userService.findByUsername(userInfoResponse.getUsername());
         if (Objects.isNull(user)) {
@@ -38,12 +49,13 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No records found");
         }
         List<RecordResponse> recordResponses = records.stream()
-                .map(record -> new RecordResponse(record.getTitle(), record.getContent(), record.getUser().getUsername()))
+                .map(record -> new RecordResponse(record.getId(), record.getTitle(), record.getContent(),
+                        record.getUser().getUsername()))
                 .toList();
         return ResponseEntity.ok(recordResponses);
     }
 
-    @GetMapping("/record/{id}")
+    @PostMapping("/record/{id}")
     public ResponseEntity<?> userRecord(@RequestBody UserInfoResponse userInfoResponse, @PathVariable Integer id) {
         User user = userService.findByUsername(userInfoResponse.getUsername());
         if (Objects.isNull(user)) {
@@ -53,7 +65,9 @@ public class UserController {
         if (Objects.isNull(record)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Record not found");
         }
-        return ResponseEntity.ok(new RecordResponse(record.getTitle(), record.getContent(), record.getUser().getUsername()));
+        return ResponseEntity
+                .ok(new RecordResponse(record.getId(), record.getTitle(), record.getContent(),
+                        record.getUser().getUsername()));
     }
 
     @PostMapping("/record")

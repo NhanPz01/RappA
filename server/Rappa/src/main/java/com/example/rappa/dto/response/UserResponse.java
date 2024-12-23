@@ -18,7 +18,7 @@ public class UserResponse {
         this.username = username;
         this.role = role.getName();
         this.records = records.stream()
-                .map(record -> new RecordResponse(record.getTitle(), record.getContent(), record.getUser().getUsername()))
+                .map(record -> new RecordResponse(record.getId(),record.getTitle(), record.getContent(), record.getUser().getUsername()))
                 .toList();
     }
 

@@ -1,8 +1,20 @@
 import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 interface SignInProps {
     signinIn: boolean;
 }
+
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); // Example: Press Start 2P
+  /* Or any of the other fonts, replacing spaces with '+' in the URL:
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+    etc.
+  */
+  body {
+    font-family: 'Press Start 2P', monospace;
+  }
+`;
 
 export const ColoredBackground = styled.div`
     position: absolute; 
@@ -17,6 +29,13 @@ export const ColoredBackground = styled.div`
 `;
 
 export const Bg = styled.div`
+    display: flex;
+    font-family: 'Press Start 2P', monospace; 
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 2px; 
+    justify-content: center;
+    align-items: center;    
     position: absolute; 
     background-color: white; 
     width: 100%;
@@ -26,6 +45,12 @@ export const Bg = styled.div`
     z-index: 1;
     bottom: 0px;     
     right: 0px;   
+`;
+
+export const GradientText = styled.span`
+  background: linear-gradient(to right, #2396fa, #7700FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
 export const Container = styled.div`

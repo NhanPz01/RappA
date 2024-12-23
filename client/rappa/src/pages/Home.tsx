@@ -5,6 +5,7 @@ import * as Components from '../assets/Components';
 import WordService from '../services/WordService';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../services/AuthService';
+import UserService from '../services/UserService';
 
 const { Header, Content } = Layout;
 
@@ -41,6 +42,7 @@ const IndexDiv = styled.div`
     max-height: 20px;
     width: 65vw;
     margin-bottom: 10px;
+    cursor: pointer;
 `;
 
 const StyledLayout = styled(Layout)`
@@ -51,6 +53,7 @@ const StyledLayout = styled(Layout)`
 
 const Home: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [records, setRecords] = useState<any[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -63,8 +66,21 @@ const Home: React.FC = () => {
                 navigate('/login');
             }
         };
-
+    
+        const fetchUserRecords = async () => {
+            try {
+                const user = localStorage.getItem('user');
+                if (user) {
+                    const records = await UserService.getUserRecords(user);
+                    setRecords(records);
+                }
+            } catch (error) {
+                console.error("Failed to fetch user records:", error);
+            }
+        };
+    
         checkLoginStatus();
+        fetchUserRecords();
     }, [navigate]);
 
     if (!isLoggedIn) {
@@ -83,6 +99,10 @@ const Home: React.FC = () => {
         }
     };
 
+    const handleRecordClick = (id: number) => {
+        navigate(`/record/${id}`);
+    };
+
     return (
         <StyledLayout>
             <StyledHeader>
@@ -90,8 +110,8 @@ const Home: React.FC = () => {
                 <Components.GradiantButton
                     style={{ padding: '20px', maxHeight: '40px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}
                     onClick={() => {
-                        handleLogout;
-                        navigate('/login')
+                        handleLogout();
+                        navigate('/login');
                     }}
                 >
                     Đăng xuất
@@ -99,18 +119,12 @@ const Home: React.FC = () => {
             </StyledHeader>
 
             <MainContainer style={{alignItems:'center'}}>
-            <IndexDiv>
-                    <Components.ColoredBackground/>
-                    <Components.Bg/>
-                </IndexDiv>
-                <IndexDiv>
-                    <Components.ColoredBackground/>
-                    <Components.Bg/>
-                </IndexDiv>
-                <IndexDiv>
-                    <Components.ColoredBackground/>
-                    <Components.Bg/>
-                </IndexDiv>
+                {records.map((record, index) => (
+                    <IndexDiv key={index} onClick={() => handleRecordClick(record.id)}>
+                        <Components.ColoredBackground/>
+                        <Components.Bg><Components.GradientText>Bản thảo {index+1}: {record.title}</Components.GradientText></Components.Bg>
+                    </IndexDiv>
+                ))}
             </MainContainer>
         </StyledLayout>
     );
