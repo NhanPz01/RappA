@@ -24,7 +24,7 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
-    public List<?> findByUsername(String username) {
+    public List<Record> findByUsername(String username) {
         return recordRepository.findByUsername(username);
     }
 
@@ -39,7 +39,11 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
+<<<<<<< HEAD
     public void deleteByUsername(String username) {
+=======
+    public void deleteAllByUsername(String username) {
+>>>>>>> fca3dcfb64d58b05c21c575e8b423c615abc0497
         recordRepository.deleteByUsername(username);
     }
 }

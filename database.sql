@@ -27,6 +27,7 @@ create table user (
 
 create table record (
 	id int auto_increment primary key,
+    title nvarchar(500) null,
     content longtext null,
     username varchar(32) not null,
     foreign key(username) references user(username)

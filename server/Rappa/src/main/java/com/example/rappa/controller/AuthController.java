@@ -34,7 +34,7 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(userService.findRoleByName("ROLE_USER"));
         userService.save(user);
-        return ResponseEntity.ok(UserInfoResponse.fromUser(user));
+        return ResponseEntity.ok(UserInfoResponse.fromUser(user));  
     }
 
     @PostMapping("/signin")

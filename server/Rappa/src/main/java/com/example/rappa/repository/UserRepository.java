@@ -9,4 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "SELECT * FROM user WHERE username = :username",nativeQuery = true)
     User findByUsername(String username);
+
+    @Query(value = "DELETE FROM user WHERE username = :username",nativeQuery = true)
+    void deleteByUsername(String username);
 }

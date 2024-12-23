@@ -1,8 +1,57 @@
 import styled from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 interface SignInProps {
     signinIn: boolean;
 }
+
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); // Example: Press Start 2P
+  /* Or any of the other fonts, replacing spaces with '+' in the URL:
+    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+    etc.
+  */
+  body {
+    font-family: 'Press Start 2P', monospace;
+  }
+`;
+
+export const ColoredBackground = styled.div`
+    position: absolute; 
+    background: linear-gradient(to right, #7dc0ff, #4f6fff);
+    width: 100%;
+    height: 100%;
+    min-height: 20px;
+    min-width: 20px;
+    z-index: 1;      
+    bottom: -10px;     
+    right: -10px;      
+`;
+
+export const Bg = styled.div`
+    display: flex;
+    font-family: 'Press Start 2P', monospace; 
+    font-weight: 1000;
+    text-transform: uppercase;
+    letter-spacing: 2px; 
+    justify-content: center;
+    align-items: center;    
+    position: absolute; 
+    background-color: white; 
+    width: 100%;
+    height: 100%;
+    min-height: 20px;
+    min-width: 20px;
+    z-index: 1;
+    bottom: 0px;     
+    right: 0px;   
+`;
+
+export const GradientText = styled.span`
+  background: linear-gradient(to right, #2396fa, #7700FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
 
 export const Container = styled.div`
     background-color: #fff;
@@ -58,6 +107,13 @@ export const Title = styled.h1`
     margin: 0;
 `;
 
+export const GradientTitle = styled(Title)`
+    background: linear-gradient(to right, #47B5FF, #7700FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 0px;
+`;
+
 export const Input = styled.input`
     background-color: #eee;
     border: none;
@@ -66,13 +122,11 @@ export const Input = styled.input`
     width: 100%;
 `;
 
-
 export const Button = styled.button`
+    border-width: 0px;
     border-radius: 20px;
-    border: none;
     background-color: #47B5FF;
     color: #ffffff;
-    border-color: #ffffff;
     font-size: 12px;
     font-weight: bold;   
     padding: 12px 45px;
@@ -81,6 +135,30 @@ export const Button = styled.button`
     transition: transform 80ms ease-in, border 80ms ease-in;
     &:active {
         transform: scale(0.95);
+        border-color: #ffffff;
+        border-width: 2.5px;
+    }
+    &:focus {
+        outline: none;
+    }
+`;
+
+export const GradiantButton = styled.button`
+    border-width: 0px;
+    border-radius: 20px;
+    background: -webkit-linear-gradient(to right, #0088ff, #7700ff);
+    background: linear-gradient(to right, #0088ff, #7700ff);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;   
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in, border 80ms ease-in;
+    &:active {
+        transform: scale(0.95);
+        border-color: #ffffff;
+        border-width: 2.5px;
     }
     &:focus {
         outline: none;

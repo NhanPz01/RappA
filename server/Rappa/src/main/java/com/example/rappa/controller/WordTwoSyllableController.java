@@ -3,7 +3,15 @@ package com.example.rappa.controller;
 import com.example.rappa.model.WordTwoSyllable;
 import com.example.rappa.service.WordTwoSyllableService;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
+=======
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+>>>>>>> fca3dcfb64d58b05c21c575e8b423c615abc0497
 
 import java.util.List;
 

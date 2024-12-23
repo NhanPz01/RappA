@@ -1,7 +1,16 @@
 package com.example.rappa.controller;
 
+<<<<<<< HEAD
 import com.example.rappa.model.Record;
 import com.example.rappa.model.User;
+=======
+import com.example.rappa.dto.response.RecordResponse;
+import com.example.rappa.dto.response.UserInfoResponse;
+import com.example.rappa.dto.response.UserResponse;
+import com.example.rappa.model.Record;
+import com.example.rappa.model.User;
+import com.example.rappa.service.AdminService;
+>>>>>>> fca3dcfb64d58b05c21c575e8b423c615abc0497
 import com.example.rappa.service.RecordService;
 import com.example.rappa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +27,7 @@ import java.util.Objects;
 @CrossOrigin(origins = "http://localhost:5173")
 public class AdminController {
     @Autowired
+<<<<<<< HEAD
     private UserService userService;
 
     @Autowired
@@ -27,6 +37,58 @@ public class AdminController {
     @GetMapping
     public ResponseEntity<?> adminAccess() {
         return ResponseEntity.ok("Admin access granted");
+=======
+    private AdminService adminService;
+
+    // API for users
+    @GetMapping("/users")
+    public ResponseEntity<?> getUsers() {
+        List<UserResponse> users = adminService.getUsers();
+        if (users.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No users found");
+        }
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<?> getUser(@PathVariable String username) {
+        UserResponse user = adminService.getUser(username);
+        if (Objects.isNull(user)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/user/{username}")
+    public ResponseEntity<?> deleteUser(@PathVariable String username) {
+        adminService.deleteUser(username);
+        return ResponseEntity.ok("User deleted successfully");
+    }
+
+    // API for records
+    @GetMapping("/records")
+    public ResponseEntity<?> getRecords() {
+        List<RecordResponse> records = adminService.getRecords();
+        if (records.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No records found");
+        }
+        return ResponseEntity.ok(records);
+    }
+
+    @GetMapping("/record/{id}")
+    public ResponseEntity<?> getRecord(@PathVariable Integer id) {
+        RecordResponse record = adminService.getRecord(id);
+        if (Objects.isNull(record)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Record not found");
+        }
+        return ResponseEntity.ok(record);
+    }
+
+    @DeleteMapping("/record/{id}")
+    public ResponseEntity<?> deleteRecord(@PathVariable Integer id) {
+        adminService.deleteRecord(id);
+        return ResponseEntity.ok("Record deleted successfully");
+>>>>>>> fca3dcfb64d58b05c21c575e8b423c615abc0497
     }
 
     // API for users
