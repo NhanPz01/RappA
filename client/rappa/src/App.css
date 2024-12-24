@@ -17,6 +17,12 @@ html, body {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  background-color: black;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

@@ -1,13 +1,14 @@
-import { Button, Card, Input, Layout, Space, Tag, Typography, message } from 'antd';
+// client/rappa/src/pages/Record.tsx
+import { Card, Input, Layout, Space, Tag, Typography, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Components from '../assets/Components';
 import WordService from '../services/WordService';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import UserService from '../services/UserService';
 import AuthService from '../services/AuthService';
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content} = Layout;
 const { TextArea } = Input;
 const { Title } = Typography;
 
@@ -50,17 +51,14 @@ const Record: React.FC = () => {
   const navigate = useNavigate();
   const { id: recordId } = useParams<{ id: string }>();
 
-
   useEffect(() => {
     const fetchRecord = async () => {
       const user = localStorage.getItem('user');
-      console.log(recordId);
       if (user && recordId) {
         const parsedRecordId = parseInt(recordId);
         const record = await UserService.getUserRecordById(user, parsedRecordId);
         setTitle(record.title);
         setText(record.content);
-        console.log(record);
       }
     };
     fetchRecord();
@@ -71,13 +69,11 @@ const Record: React.FC = () => {
   };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newText = e.target.value;
-    setText(newText);
+    setText(e.target.value);
   };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newTitle = e.target.value;
-    setTitle(newTitle);
+    setTitle(e.target.value);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -98,7 +94,7 @@ const Record: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await AuthService.logout(); // Call the logout function from AuthService
+      await AuthService.logout();
       localStorage.removeItem('user');
       navigate('/login');
     } catch (error) {
@@ -109,33 +105,78 @@ const Record: React.FC = () => {
 
   const handleCreateTag = async (count: number) => {
     const words = text.trim().split(' ');
-    const lastWords = words.slice(-count).join(' ');
-    if (lastWords.trim() === '') {
-      message.warning('No words available in the line above to create a tag.');
+    const lastWord = words[words.length - 1];
+    const lastTwoWords = words.slice(-2).join(' ');
+
+    if (lastWord.trim() === '') {
+      message.warning('Đừng để trống.');
       return;
     }
+
+    try {
+      const prediction = await WordService.predictWord(encodeURIComponent(lastWord));
+      if (!prediction.language) {
+        message.warning('Web hiện chỉ hỗ trợ vần tiếng Việt.');
+        return;
+      }
+    } catch (error) {
+      return;
+    }
+
     if (count === 1 && !isLastWordActive) {
-      const rhymeWords = await WordService.getWordsWithSameRhyme(lastWords);
-      const newTags = rhymeWords.map((item: any) => item.word);
+      const rhymeWords = await WordService.getWordsWithSameRhyme(encodeURIComponent(lastWord));
+      const newTags = rhymeWords.map((item: any) => decodeURIComponent(item.word));
       setWordCloudTags(newTags);
       setIsLastWordActive(true);
       setIsLastTwoWordsActive(false);
     } else if (count === 2 && !isLastTwoWordsActive) {
-      const rhymeWords = await WordService.getTwoSyllableWordsWithSameRhyme(lastWords);
-      const newTags = rhymeWords.map((item: any) => item.word);
+      const rhymeWords = await WordService.getTwoSyllableWordsWithSameRhyme(encodeURIComponent(lastTwoWords));
+      const newTags = rhymeWords.map((item: any) => decodeURIComponent(item.word));
       setWordCloudTags(newTags);
       setIsLastTwoWordsActive(true);
       setIsLastWordActive(false);
     }
   };
 
+  const handleUpdate = async () => {
+    const user = localStorage.getItem('user');
+    console.log(user);
+    if (user && recordId) {
+      const parsedRecordId = parseInt(recordId);
+      const recordRequest = { title, content: text, username: JSON.parse(user).username };
+      await UserService.updateUserRecord(user, parsedRecordId, recordRequest);
+      message.success("Bản thảo cập nhật thành công.");
+    }
+  };
+
+  const handleDelete = async () => {
+    const user = localStorage.getItem('user');
+    if (user && recordId) {
+      try {
+        const parsedRecordId = parseInt(recordId);
+        await UserService.deleteUserRecord(user, parsedRecordId);
+        message.success("Bản thảo đã được xóa thành công.");
+        navigate('/records'); // Navigate to the records list page after deletion
+      } catch (error) {
+        console.error("Delete failed:", error);
+        message.error("Xóa bản thảo thất bại. Vui lòng thử lại.");
+      }
+    }
+  };
+
   return (
     <StyledLayout>
       <StyledHeader>
-        <Components.GradientTitle style={{ color: '#47B5FF', marginTop: '0px' }}>RappA</Components.GradientTitle>
+        <Components.GradientTitle 
+          style={{ color: '#47B5FF', marginTop: '0px' }} 
+          onClick={()=>{
+            handleUpdate();
+            navigate('/home');
+          }}>RappA</Components.GradientTitle>
         <Components.GradiantButton
           style={{ padding: '20px', maxHeight: '40px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}
           onClick={() => {
+            handleUpdate();
             handleLogout();
             navigate('/login');
           }}
@@ -150,10 +191,10 @@ const Record: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             marginBottom: 10,
-
           }}>
             <div style={{ width: 60 }}>Tiêu đề: </div>
             <TextArea value={title} onChange={handleTitleChange} style={{ width: '100%', height: 30 }}></TextArea>
+
           </div>
           <TextArea
             value={text}
@@ -162,26 +203,50 @@ const Record: React.FC = () => {
             placeholder="Text here..."
             style={{ height: "70vh" }}
           />
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'end',
+            marginTop: 10,
+          }}>
+            <Components.Button
+              style={{ backgroundColor: '#02de9c', marginLeft: '5px', padding: '20px', maxHeight: '40px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}
+              onClick={() => {
+                handleUpdate();
+              }}
+            >
+              Lưu
+            </Components.Button>
+            <Components.Button
+              style={{ backgroundColor: '#ff4d4f', marginLeft: '5px', padding: '20px', maxHeight: '40px', alignItems: 'center', justifyContent: 'center', display: 'flex' }}
+              onClick={() =>{
+                navigate('/home');
+                handleDelete();
+              }}
+            >
+              Xóa
+            </Components.Button>
+          </div>
         </Card>
 
         <Card>
           <Space direction="vertical" style={{ width: '100%' }} size="large">
             <div>
               <Title level={4} style={{ color: '#47B5FF' }}>
-                Propose
+                Gợi ý vần
               </Title>
               <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Components.Button
                   style={{ backgroundColor: isLastWordActive ? '#47B5FF' : '#e6f7ff', color: isLastWordActive ? '#ffffff' : '#47B5FF' }}
                   onClick={() => { handleCreateTag(1); }}
                 >
-                  Create Tag (Last Word)
+                  Tìm vần đơn
                 </Components.Button>
                 <Components.Button
                   style={{ backgroundColor: isLastTwoWordsActive ? '#47B5FF' : '#e6f7ff', color: isLastTwoWordsActive ? '#ffffff' : '#47B5FF' }}
                   onClick={() => { handleCreateTag(2); }}
                 >
-                  Create Tag (Last 2 Words)
+                  Tìm vần đôi
                 </Components.Button>
               </Space>
               <div style={{

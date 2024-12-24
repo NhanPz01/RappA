@@ -1,8 +1,7 @@
-import { Button, Card, Input, Layout, Space, Tag, Typography, message } from 'antd';
+import {Layout, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Components from '../assets/Components';
-import WordService from '../services/WordService';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../services/AuthService';
 import UserService from '../services/UserService';
