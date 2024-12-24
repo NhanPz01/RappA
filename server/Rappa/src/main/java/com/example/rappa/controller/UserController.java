@@ -2,6 +2,8 @@ package com.example.rappa.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import com.example.rappa.dto.request.AuthRequest;
 import com.example.rappa.dto.request.RecordRequest;
 import com.example.rappa.dto.response.RecordResponse;
@@ -19,12 +21,8 @@ import com.example.rappa.model.Word;
 import com.example.rappa.service.WordService;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
 
@@ -102,4 +100,5 @@ public class UserController {
         recordService.deleteById(id);
         return ResponseEntity.ok("Record deleted successfully");
     }
+
 }

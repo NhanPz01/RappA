@@ -1,20 +1,8 @@
 import styled from 'styled-components';
-import { createGlobalStyle } from 'styled-components';
 
 interface SignInProps {
     signinIn: boolean;
 }
-
-const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); // Example: Press Start 2P
-  /* Or any of the other fonts, replacing spaces with '+' in the URL:
-    @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
-    etc.
-  */
-  body {
-    font-family: 'Press Start 2P', monospace;
-  }
-`;
 
 export const ColoredBackground = styled.div`
     position: absolute; 

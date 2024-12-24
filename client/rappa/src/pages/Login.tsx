@@ -33,7 +33,11 @@ function Login() {
             const response = await AuthService.signin({ username, password });
             localStorage.setItem('user', JSON.stringify(response));
             console.log('Sign in successful:', response);
-            navigate('/home');
+            if (response.role === 'ROLE_ADMIN') {
+                navigate('/admin');
+            } else {
+                navigate('/home');
+            }
         } catch (error) {
             message.error('Đăng nhập thất bại. Vui lòng thử lại.');
             console.error("Sign up failed:", error);
@@ -83,7 +87,7 @@ function Login() {
     }
 
     return (
-        <div style={{height: '100vh', width: '100vw', alignItems:'center', display: 'flex',justifyContent: 'center',}}>
+        <div style={{height: '100vh', width: '100vw', alignItems:'center', display: 'flex',justifyContent: 'center', backgroundColor: '#ffffff'}}>
             <Components.Container>
                 <Components.SignUpContainer signinIn={signIn}>
                     <Components.Form onSubmit={handleSignUp}>
