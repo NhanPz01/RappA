@@ -1,4 +1,4 @@
-import {Layout, message } from 'antd';
+import { Layout, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Components from '../assets/Components';
@@ -50,9 +50,14 @@ const StyledLayout = styled(Layout)`
     overflow: hidden;
 `;
 
+interface Record {
+    id: number;
+    title: string;
+  }
+
 const Home: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-    const [records, setRecords] = useState<any[]>([]);
+    const [records, setRecords] = useState<Record[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
