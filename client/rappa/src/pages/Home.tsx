@@ -1,4 +1,4 @@
-import {Layout, message } from 'antd';
+import { Layout, message, Button, Modal, Form, Input } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Components from '../assets/Components';
@@ -10,7 +10,7 @@ const { Header, Content } = Layout;
 
 const StyledHeader = styled(Header)`
     position: absolute;
-    width: 100vw;   
+    width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -53,6 +53,7 @@ const StyledLayout = styled(Layout)`
 const Home: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [records, setRecords] = useState<any[]>([]);
+    const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -65,7 +66,7 @@ const Home: React.FC = () => {
                 navigate('/login');
             }
         };
-    
+
         const fetchUserRecords = async () => {
             try {
                 const user = localStorage.getItem('user');
@@ -77,7 +78,7 @@ const Home: React.FC = () => {
                 console.error("Failed to fetch user records:", error);
             }
         };
-    
+
         checkLoginStatus();
         fetchUserRecords();
     }, [navigate]);
@@ -102,6 +103,31 @@ const Home: React.FC = () => {
         navigate(`/record/${id}`);
     };
 
+    const handleCreate = () => {
+        setIsCreateModalVisible(true);
+    };
+
+    const handleSaveNewRecord = async (values: any) => {
+        try {
+            const user = localStorage.getItem('user');
+            if (user) {
+                const parsedUser = JSON.parse(user);
+                const recordRequest = {
+                    title: values.title,
+                    content: null,
+                    username: parsedUser.username
+                };
+                await UserService.addUserRecord(recordRequest);
+                const records = await UserService.getUserRecords(user);
+                setRecords(records);
+                setIsCreateModalVisible(false);
+                message.success('Record created successfully');
+            }
+        } catch (error) {
+            message.error('Failed to create record');
+        }
+    };
+
     return (
         <StyledLayout>
             <StyledHeader>
@@ -118,6 +144,9 @@ const Home: React.FC = () => {
             </StyledHeader>
 
             <MainContainer style={{alignItems:'center'}}>
+                <Button type="primary" onClick={handleCreate} style={{ marginBottom: 20, backgroundColor: '#ffffff'}}>
+                    <Components.GradientText>BẢN THẢO MỚI</Components.GradientText>
+                </Button>
                 {records.map((record, index) => (
                     <IndexDiv key={index} onClick={() => handleRecordClick(record.id)}>
                         <Components.ColoredBackground/>
@@ -125,6 +154,33 @@ const Home: React.FC = () => {
                     </IndexDiv>
                 ))}
             </MainContainer>
+
+            <Modal
+                title="Create New Record"
+                visible={isCreateModalVisible}
+                onCancel={() => setIsCreateModalVisible(false)}
+                footer={null}
+            >
+                <Form
+                    onFinish={handleSaveNewRecord}
+                >
+                    <Form.Item
+                        name="title"
+                        label="Title"
+                        rules={[{ required: true, message: 'Please input the title!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            Create
+                        </Button>
+                        <Button onClick={() => setIsCreateModalVisible(false)} style={{ marginLeft: 8 }}>
+                            Cancel
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </StyledLayout>
     );
 };
