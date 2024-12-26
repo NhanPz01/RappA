@@ -17,8 +17,8 @@ const UserService = {
         return response.data;
       },
     // Add a new record for a user
-    addUserRecord: async (user:any, recordRequest: any): Promise<any> => {
-        const response = await axios.post(`${API_URL}/record`, { user, ...recordRequest });
+    addUserRecord: async (recordRequest: any): Promise<any> => {
+        const response = await axios.post(`${API_URL}/record`, recordRequest);
         return response.data;
     },
     // Update an existing record by ID
