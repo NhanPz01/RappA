@@ -1,4 +1,4 @@
-import { Layout, message } from 'antd';
+import { Button, Form, Input, Layout, message, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import * as Components from '../assets/Components';
@@ -50,11 +50,6 @@ const StyledLayout = styled(Layout)`
     overflow: hidden;
 `;
 
-interface Record {
-    id: number;
-    title: string;
-  }
-
 const Home: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [records, setRecords] = useState<any[]>([]);
@@ -100,7 +95,6 @@ const Home: React.FC = () => {
             navigate('/login');
         } catch (error) {
             console.error("Logout failed:", error);
-            message.error("Đăng xuất thất bại. Vui lòng thử lại.");
         }
     };
 
@@ -152,12 +146,16 @@ const Home: React.FC = () => {
                 <Button type="primary" onClick={handleCreate} style={{ marginBottom: 20, backgroundColor: '#ffffff'}}>
                     <Components.GradientText>BẢN THẢO MỚI</Components.GradientText>
                 </Button>
-                {records.map((record, index) => (
-                    <IndexDiv key={index} onClick={() => handleRecordClick(record.id)}>
-                        <Components.ColoredBackground/>
-                        <Components.Bg><Components.GradientText>Bản thảo {index+1}: {record.title}</Components.GradientText></Components.Bg>
-                    </IndexDiv>
-                ))}
+                {records.length === 0 ? (
+                    <div style={{color: "white"}}>No records found</div>
+                ) : (
+                    records.map((record, index) => (
+                        <IndexDiv key={index} onClick={() => handleRecordClick(record.id)}>
+                            <Components.ColoredBackground/>
+                            <Components.Bg><Components.GradientText>Bản thảo {index+1}: {record.title}</Components.GradientText></Components.Bg>
+                        </IndexDiv>
+                    ))
+                )}
             </MainContainer>
 
             <Modal
@@ -172,7 +170,7 @@ const Home: React.FC = () => {
                     <Form.Item
                         name="title"
                         label="Title"
-                        rules={[{ required: true, message: 'Please input the title!' }]}
+                        rules={[{ required: true, message: 'Không được để trống tiêu đề!' }]}
                     >
                         <Input />
                     </Form.Item>

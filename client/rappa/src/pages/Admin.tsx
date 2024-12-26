@@ -51,7 +51,6 @@ const Admin = () => {
             await AuthService.logout();
         } catch (error) {
             console.error("Logout failed:", error);
-            message.error("Đăng xuất thất bại. Vui lòng thử lại.");
         }
     };
 

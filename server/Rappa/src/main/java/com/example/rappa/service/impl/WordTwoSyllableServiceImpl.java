@@ -40,6 +40,8 @@ public class WordTwoSyllableServiceImpl implements WordTwoSyllableService {
                 break;
             }
         }
+        firstSyllable = firstSyllable.replace("y", "i");
+        secondSyllable = secondSyllable.replace("y", "i");
         word = "%" + firstSyllable + " %" + secondSyllable;
         String exceptedWord1 = "%u" + firstSyllable + " %" + secondSyllable;
         String exceptedWord2 = "%o" + firstSyllable + " %" + secondSyllable;

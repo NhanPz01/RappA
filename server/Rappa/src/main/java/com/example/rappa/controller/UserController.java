@@ -28,7 +28,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://qcc354tc-5173.asse.devtunnels.ms/")
 public class UserController {
     @Autowired
     private UserService userService;

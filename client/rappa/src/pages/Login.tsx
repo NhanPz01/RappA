@@ -62,6 +62,7 @@ function Login() {
         try {
             const response = await AuthService.signup({ username, password });
             console.log('Sign up successful:', response);
+            message.success('Đăng ký thành công!');
             // Handle successful sign-up (e.g., redirect, show success message)
         } catch (error: unknown) {
             if (isCustomError(error) && error.response && error.response.status === 400) {

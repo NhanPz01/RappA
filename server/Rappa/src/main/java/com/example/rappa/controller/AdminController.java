@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/admin")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://qcc354tc-5173.asse.devtunnels.ms/")
 public class AdminController {
     @Autowired
     private AdminService adminService;

@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/admin'; // Ensure this matches your backend URL
+// const API_URL = 'http://localhost:8080/admin'; // Ensure this matches your backend URL
+const API_URL = 'https://qcc354tc-8080.asse.devtunnels.ms/admin'; // Ensure this matches your backend URL
 
 const AdminService = {
     getUsers: async (): Promise<any[]> => {

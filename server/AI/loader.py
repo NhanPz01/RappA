@@ -9,9 +9,9 @@ app = Flask(__name__)
 # Enable CORS for all routes (most common and simplest)
 CORS(app) 
 # Load the saved model
-model = tf.keras.models.load_model(r"C:\Study\2024-2025\Ki1\PBL6\pbl6_rappa\server\AI\vietnamese_word_classifier.h5")
+model = tf.keras.models.load_model(r"D:\01_Projects\1-tech\pbl6_rappa\server\AI\vietnamese_word_classifier.h5")
 
-with open(r"C:\Study\2024-2025\Ki1\PBL6\pbl6_rappa\server\AI\model_data.json", 'r') as f:
+with open(r"D:\01_Projects\1-tech\pbl6_rappa\server\AI\model_data.json", 'r') as f:
     loaded_data = json.load(f)
 all_chars = loaded_data['all_chars']
 char_to_int = dict((c, i) for i, c in enumerate(all_chars))

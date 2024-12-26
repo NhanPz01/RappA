@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080/auth'; // Base URL for auth endpoints
+// const API_URL = 'http://localhost:8080/auth'; // Base URL for auth endpoints
+const API_URL = 'https://qcc354tc-8080.asse.devtunnels.ms/auth'; // Base URL for auth endpoints
 
 const AuthService = {  // Changed to AuthService
     signup: async (user: any): Promise<any> => {

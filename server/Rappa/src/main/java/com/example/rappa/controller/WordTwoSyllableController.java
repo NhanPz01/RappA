@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/word2")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://qcc354tc-5173.asse.devtunnels.ms/")
 public class WordTwoSyllableController {
     @Autowired
     private WordTwoSyllableService word2Service;

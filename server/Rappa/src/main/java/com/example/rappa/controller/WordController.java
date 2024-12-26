@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/word")
-@CrossOrigin(origins = "http://localhost:5173") // Allow requests from this origin
+@CrossOrigin(origins = "https://qcc354tc-5173.asse.devtunnels.ms/") // Allow requests from this origin
 public class WordController {
     @Autowired
     private WordService wordService;

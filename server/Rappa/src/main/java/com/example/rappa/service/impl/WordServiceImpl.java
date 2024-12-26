@@ -35,6 +35,8 @@ public class WordServiceImpl implements WordService {
                 break;
             }
         }
+        // nếu trong từ có chữ "y" thì chuyển thành "i"
+        word = word.replace("y", "i");
         return wordRepository.findAllByNoAccentEndingWith(word);
     }
 

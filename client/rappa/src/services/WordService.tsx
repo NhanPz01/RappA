@@ -1,7 +1,10 @@
 import axios from 'axios';
-const API_URL = 'http://localhost:8080/word'; // Ensure this matches your backend URL
-const API_URL_2 = 'http://localhost:8080/word2';
-const API_AI_URL = 'http://127.0.0.1:5000/predict';
+// const API_URL = 'http://localhost:8080/word'; // Ensure this matches your backend URL
+// const API_URL_2 = 'http://localhost:8080/word2';
+// const API_AI_URL = 'http://127.0.0.1:5000/predict';
+const API_URL = 'https://qcc354tc-8080.asse.devtunnels.ms/word'; // Ensure this matches your backend URL
+const API_URL_2 = 'https://qcc354tc-8080.asse.devtunnels.ms/word2';
+const API_AI_URL = 'https://qcc354tc-5000.asse.devtunnels.ms/predict';
 
 const WordService = {
     predictWord: async (word: string): Promise<any> => {

@@ -99,7 +99,6 @@ const Record: React.FC = () => {
       navigate('/login');
     } catch (error) {
       console.error("Logout failed:", error);
-      message.error("Đăng xuất thất bại. Vui lòng thử lại.");
     }
   };
 

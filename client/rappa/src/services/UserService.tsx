@@ -1,5 +1,6 @@
 import axios from 'axios';
-const API_URL = 'http://localhost:8080/user'; // Ensure this matches your backend URL
+// const API_URL = 'http://localhost:8080/user'; // Ensure this matches your backend URL
+const API_URL = 'https://qcc354tc-8080.asse.devtunnels.ms/user'; // Ensure this matches your backend URL
 
 const UserService = {
     // Fetch all user records
